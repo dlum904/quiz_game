@@ -9,7 +9,7 @@ function App() {
       type: "Single Answer",
       question: "Where would you find the Empire State building?",
       options: ["New York", "Los Angeles", "San Francisco", "New Orleans"],
-      answer: "New York"
+      answer: ["New York"]
     },
     2: {
       type: "Multiple Answer",
@@ -26,32 +26,77 @@ function App() {
     }
   }
 
-  const [score, setScore] = useState();
-
+ 
   const [currentQuestion, setCurrentQuestion] = useState(1);
 
+  let score = 0;
+  let choice = [];
   // when we submit the question, we will setScore and setCurrentQuestion to advance to next question
   const submit = () => {
-
+    console.log("sumbitted")
+    // debugger
+    if (checkAnswer()) {
+      score += 100
+      alert("correct")
+    } else alert("wrong");
+    setCurrentQuestion(currentQuestion + 1);
   }
   
+  const checkAnswer = () => {
+    let answerArray = questions[currentQuestion].answer.sort();
+    let choiceArray = choice.sort();
+    let output = true;
+    debugger
+    answerArray.forEach((ele, idx) => {
+      if (answerArray[idx] !== choiceArray[idx]) output = false;
+    })
+    return output;
+  }
+
+  const updateChoice = (ele) => {
+    if (choice.includes(ele)) {
+      debugger
+      choice = choice.filter((el) => el !== ele)
+    } else choice.push(ele);
+    debugger
+  }
+
   return currentQuestion === 1 ? (
+    // QUESTION 1
     <div className="App">
       {questions[currentQuestion].question}
       {questions[currentQuestion].options.map((ele,idx) => {
         return (
-            <div key={idx}>
-              <label className="questionLabel"/>{idx}
-              {ele}
-            </div>
+          <li key={idx}>
+            <label >{ele}</label>
+            <input
+            type="radio"
+            onClick={()=>updateChoice(ele)}
+              />
+          </li>
         )
       })}
+      <button type="submit" onClick={() => submit()}>Submit</button>
     </div>
   ) : currentQuestion === 2 ? (
-    <div className="App">
-      2
-    </div>
+    // QUESTION 2
+      <div className="App">
+        {questions[currentQuestion].question}
+          {questions[currentQuestion].options.map((ele, idx) => {
+            return (
+              <li key={idx}>
+                <label >{ele}</label>
+                <input
+                  type="checkbox"
+                  onChange={() => updateChoice(ele)}
+                />
+              </li>
+            )
+          })}
+        <button type="submit" onClick={() => submit()}>Submit</button>
+      </div>
   ) :
+    // QUESTION 3
   (
     <div className="App">
       3
