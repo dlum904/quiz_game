@@ -46,7 +46,7 @@ function App() {
     let answerArray = questions[currentQuestion].answer.sort();
     let choiceArray = choice.sort();
     let output = true;
-    debugger
+    // debugger
     answerArray.forEach((ele, idx) => {
       if (answerArray[idx] !== choiceArray[idx]) output = false;
     })
@@ -55,10 +55,10 @@ function App() {
 
   const updateChoice = (ele) => {
     if (choice.includes(ele)) {
-      debugger
+      // debugger
       choice = choice.filter((el) => el !== ele)
     } else choice.push(ele);
-    debugger
+    // debugger
   }
 
   return currentQuestion === 1 ? (
